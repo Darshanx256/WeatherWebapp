@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async() =>{
     let geoapiKey = null
     try {
          const module = await import('./modules/main/config.mjs');
-         apiKey = module.OPENWEATHER_KEY;
+         apiKey = module.OPENWEATHERMAP_KEY;
          geoapiKey = module.GEOAPIFY_KEY;
     }
     catch(error)
