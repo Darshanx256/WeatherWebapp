@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async() =>{
 
 
-    let apiKey = null;
+    let apiKey = import.meta.env.VITE_OPENWEATHERMAP;
     let geoapiKey = null
     try {
          const module = await import('./modules/main/config.mjs');
