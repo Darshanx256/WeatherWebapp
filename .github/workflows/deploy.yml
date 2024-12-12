@@ -1,0 +1,40 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Trigger workflow when pushing to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Use Ubuntu for the build environment
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Step to checkout the code from the repository
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2  # Set up Node.js for the workflow
+        with:
+          node-version: '16'  # You can change this to the Node.js version you need
+
+      - name: Install dependencies
+        run: npm install  # Install dependencies from package.json
+
+      - name: Set environment variables for VITE
+        run: |
+          echo "VITE_OPENWEATHER=${{ secrets.OPENWEATHERMAP_KEY }}" >> $GITHUB_ENV
+          echo "VITE_GEOAPIFY=${{ secrets.GEOAPIFY_KEY }}" >> $GITHUB_ENV
+          echo "VITE_DISTANCEMATRIX=${{ secrets.DISTANCEMATRIX_KEY }}" >> $GITHUB_ENV
+          echo "VITE_DISTANCEMATRIX_COORDS=${{ secrets.DISTANCEMATRIX_COORDS_KEY }}" >> $GITHUB_ENV
+          echo "VITE_VISUALCROSSING=${{ secrets.VISUALCROSSING_KEY }}" >> $GITHUB_ENV
+        # This step ensures that the secrets are injected as environment variables for Vite
+
+      - name: Build the project
+        run: npm run build  # Run the build process using Vite
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4  # Action to deploy to GitHub Pages
+        with:
+          branch: gh-pages  # Deploy to the gh-pages branch
+          folder: dist  # The folder where your built files will be located (default is dist)
