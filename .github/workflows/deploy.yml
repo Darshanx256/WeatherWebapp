@@ -38,3 +38,4 @@ jobs:
         with:
           branch: gh-pages  # Deploy to the gh-pages branch
           folder: dist  # The folder where your built files will be located (default is dist)
+          token: ${{ secrets.GH_TOKEN }}  # Add this line to pass the token
