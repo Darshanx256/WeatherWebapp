@@ -1,5 +1,5 @@
 async function fetchMoonPhase() {
-    const url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/kundapura/today?unitGroup=metric&elements=moonphase&include=current&key=VVM776YWTQ5FJNRX9YRBXLF78&contentType=json';
+    const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/kundapura/today?unitGroup=metric&elements=moonphase&include=current&key=${import.meta.env.VITE_VISUALCROSSING}&contentType=json`;
 
     try {
         const response = await fetch(url);

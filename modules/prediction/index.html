@@ -29,7 +29,7 @@
     }
 
     #weatherForecastWrapper {
-        height: calc(100% + 20px); /* Add a little extra height to accommodate the hidden scrollbar */
+        height: calc(100% + 20px); 
         overflow-y: auto; /* Enable vertical scrolling */
         margin-right: -20px; /* Adjust for scrollbar width */
     }
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
         entries.forEach(function (entry) {
             var row = table.insertRow();
             var timeCell = row.insertCell();
-            var tempCell = row.insertCell(); // Moved temperature cell here
+            var tempCell = row.insertCell(); 
             var iconCell = row.insertCell();
 
             var time = new Date(entry.dt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Show loading spinner when fetching data
     loadingIndicator.style.display = 'block';
 
-    fetch('https://api.openweathermap.org/data/2.5/forecast?appid=5a088485f78a08fadae18627eec5a98f&units=metric&q=kundapura')
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?appid=${import.meta.env.VITE_OPENWEATHERMAP}&units=metric&q=kundapura`)
         .then(response => response.json())
         .then(parsedData => {
             console.log(parsedData); // Log the fetched data to check

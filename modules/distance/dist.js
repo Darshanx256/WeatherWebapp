@@ -49,7 +49,7 @@ function hideLocationErr(){
 function mapLink(lat1, lon1, lat2, lon2, distance) {
 	console.log(distance);
     const baseUrl = 'https://maps.geoapify.com/v1/staticmap';
-    const apiKey = '2cdf21140e974ba8af8fae8dab9bbbb1';
+    const apiKey = import.meta.env.VITE_GEOAPIFY;
 
 	let zooma = 11;
 
@@ -87,7 +87,7 @@ function mapLink(lat1, lon1, lat2, lon2, distance) {
 function getDistanceInfo(source, destination) {
 	console.log(source);
 	console.log(destination);
-    const apiKey = "6mvxaDxNfMOP5XXheg2F9G59AA0rfq1xxFMsYxmBNdhj1VRh017YZgdvJ2KR0LRB";
+    const apiKey = import.meta.env.VITE_DISTANCEMATRIX;
     const url = `https://api.distancematrix.ai/maps/api/distancematrix/json?origins=${source.latitude},${source.longitude}&destinations=${destination.latitude},${destination.longitude}&key=${apiKey}`;
 
 	console.log(url);
@@ -220,9 +220,9 @@ function buttonClick() {
 	{
 			console.log("function entered once");
 			startLoading();
-			var sourceURL = "https://api.distancematrix.ai/maps/api/geocode/json?key=oPRZQuv6wqP1R6IfxUTONtm1lYXB4Ob0W1kH5HHQKX9w9m8u42i39OkyZiujLRMC&address=" + encodeURIComponent(textbox1Value);
+			var sourceURL = `https://api.distancematrix.ai/maps/api/geocode/json?key=${import.meta.env.VITE_DISTANCEMATRIX_COORDS}&address=` + encodeURIComponent(textbox1Value);
 			
-			var destURL = "https://api.distancematrix.ai/maps/api/geocode/json?key=oPRZQuv6wqP1R6IfxUTONtm1lYXB4Ob0W1kH5HHQKX9w9m8u42i39OkyZiujLRMC&address=" + encodeURIComponent(textbox2Value);
+			var destURL = `https://api.distancematrix.ai/maps/api/geocode/json?key=${import.meta.env.VITE_DISTANCEMATRIX_COORDS}&address=` + encodeURIComponent(textbox2Value);
 			
 			
 			
@@ -282,7 +282,7 @@ function buttonClick() {
             // Distance is in kilometers
             rawDist = `${rawDist.toFixed(2)} km`;
         } else {
-            // Distance is less than 1 kilometer, format as meters
+            // if Distance is less than 1 kilometer, format as meters
             rawDist = (rawDist * 1000).toFixed(2) + " m";
         }
 					

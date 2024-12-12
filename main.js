@@ -1,5 +1,19 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const apiKey = "5a088485f78a08fadae18627eec5a98f";
+document.addEventListener('DOMContentLoaded', async() =>{
+
+
+    let apiKey = null;
+    let geoapiKey = null
+    try {
+         const module = await import('./modules/main/config.mjs');
+         apiKey = module.OPENWEATHER_KEY;
+         geoapiKey = module.GEOAPIFY_KEY;
+    }
+    catch(error)
+    {
+         console.log('Error importing API key: ', error)
+    }
+
+
     const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric";
 
     const searchInput = document.getElementById('searchInput');
@@ -222,7 +236,7 @@ const closeHistoryBtn = document.getElementById('closeHistoryBtn');
 
         function mapLink(lat, lon) {
             const baseUrl = 'https://maps.geoapify.com/v1/staticmap';
-            const apiKey = '2cdf21140e974ba8af8fae8dab9bbbb1';
+            //const apiKey = import.meta.env.VITE_GEOAPIFY;
         
             const queryParams = new URLSearchParams({
                 style: 'osm-bright',
@@ -230,7 +244,7 @@ const closeHistoryBtn = document.getElementById('closeHistoryBtn');
                 height: 230,
                 center: `lonlat:${lon},${lat}`,
                 zoom: 8,
-                apiKey: apiKey,
+                apiKey: geoapiKey,
                 marker: `lonlat:${lon},${lat};color:red;size:medium`
             });
         
@@ -473,7 +487,7 @@ const closeHistoryBtn = document.getElementById('closeHistoryBtn');
     weatherForecast.innerHTML = '';
     // Show loading spinner when fetching data
     loadingIndicator.style.display = 'block';
-    var predictionLink = 'https://api.openweathermap.org/data/2.5/forecast?appid=5a088485f78a08fadae18627eec5a98f&units=metric&q=' + cityname
+    var predictionLink = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=metric&q=` + cityname
     fetch(predictionLink)
         .then(response => response.json())
         .then(parsedData => {
