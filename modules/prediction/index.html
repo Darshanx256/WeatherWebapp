@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Forecast</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome for icons -->
+<style>
+    /* CSS Styling for Weather Forecast */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+    }
+
+    #weatherForecastContainer {
+        max-width: 500px;
+        height: 300px; /* Fixed height */
+        overflow: hidden; /* Hide scrollbar */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+        transition: box-shadow 0.3s ease-in-out; /* Add transition effect */
+        background-color: #fff;
+        margin: 50px auto;
+    }
+
+    #weatherForecastContainer:hover {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+    }
+
+    #weatherForecastWrapper {
+        height: calc(100% + 20px); 
+        overflow-y: auto; /* Enable vertical scrolling */
+        margin-right: -20px; /* Adjust for scrollbar width */
+    }
+
+    .weather-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .weather-table caption {
+        font-weight: bold;
+        font-size: 1.5em;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .weather-table th,
+    .weather-table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .weather-table th {
+        background-color: #f2f2f2;
+    }
+
+    .weather-icon {
+        width: 50px;
+        vertical-align: middle;
+    }
+
+    .weather-caption {
+        font-size: 0.8em;
+        text-align: center;
+        transition: color 0.3s ease-in-out; /* Add transition effect */
+    }
+
+    .weather-caption:hover {
+        color: #007bff; /* Change color on hover */
+    }
+
+    .weather-details {
+        display: none; /* Hide by default */
+        padding: 5px 10px;
+        border-top: 1px solid #ddd;
+        background-color: #f2f2f2;
+        transition: transform 0.3s ease-in-out; /* Add transition effect */
+    }
+
+    .weather-details p {
+        margin: 5px 0;
+    }
+
+    .weather-details.show {
+        display: table-row; /* Show when expanded */
+    }
+
+    .weather-details.active {
+        animation: fadeIn 0.3s ease-in-out; /* Add fade-in animation */
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* Loading Animation */
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    #loadingIndicator {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        padding: 10px;
+        display: none; /* Hide by default */
+        color: black; /* Change spinner color to black */
+    }
+
+    #loadingIndicator .spinner {
+        animation: spin 1s linear infinite; /* Apply rotation animation */
+        color: black; /* Change spinner color to black */
+    }
+
+    /* Hover effect for rows */
+    .weather-table tr:hover {
+        transform: translateY(-2px); /* Move the row up a bit on hover */
+    }
+</style>
+</head>
+<body>
+
+<div id="weatherForecastContainer" class="slide-in">
+    <div id="weatherForecastWrapper">
+        <div id="weatherForecast"></div>
+    </div>
+    <div id="loadingIndicator">
+        <div class="spinner"><i class="fas fa-spinner fa-spin"></i></div> <!-- Loading spinner icon -->
+        <div>Loading...</div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var weatherForecast = document.getElementById('weatherForecast');
+    var weatherForecastWrapper = document.getElementById('weatherForecastWrapper');
+    var loadingIndicator = document.getElementById('loadingIndicator');
+    var data = null;
+    var startIndex = 0;
+    var recordsToShow = 40;
+
+    function renderWeatherEntries() {
+        if (!data || !data.list) return; // Check if data is available
+        var groupedEntries = groupEntriesByDate(data.list.slice(startIndex, startIndex + recordsToShow));
+
+        groupedEntries.forEach(function (entries, date, index) {
+            var table = createWeatherTable(date, entries, index);
+            weatherForecast.appendChild(table);
+        });
+
+        loadingIndicator.style.display = 'none';
+    }
+
+    function groupEntriesByDate(entries) {
+        var groupedEntries = new Map();
+        entries.forEach(function (entry, index) {
+            var date = new Date(entry.dt * 1000).toLocaleDateString();
+            if (!groupedEntries.has(date)) {
+                groupedEntries.set(date, []);
+            }
+            groupedEntries.get(date).push(entry);
+        });
+        return groupedEntries;
+    }
+
+    function createWeatherTable(date, entries, index) {
+        var table = document.createElement('table');
+        table.classList.add('weather-table');
+
+        var caption = document.createElement('caption');
+        caption.textContent = getDateLabel(date, index);
+        table.appendChild(caption);
+
+        entries.forEach(function (entry) {
+            var row = table.insertRow();
+            var timeCell = row.insertCell();
+            var tempCell = row.insertCell(); 
+            var iconCell = row.insertCell();
+
+            var time = new Date(entry.dt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            timeCell.textContent = time;
+
+            var temp = entry.main.temp + '°C';
+            tempCell.textContent = temp;
+
+            var icon = document.createElement('img');
+            if (entry.weather && entry.weather.length > 0 && entry.weather[0].icon) {
+                icon.src = 'https://openweathermap.org/img/wn/' + entry.weather[0].icon + '.png';
+                icon.alt = 'Weather Icon';
+                icon.title = entry.weather[0].description;
+            } else {
+                icon.src = 'placeholder.png';
+                icon.alt = 'Placeholder Icon';
+            }
+            icon.classList.add('weather-icon');
+            iconCell.appendChild(icon);
+
+            var description = document.createElement('span');
+            description.textContent = entry.weather[0].description;
+            iconCell.appendChild(description);
+
+            row.addEventListener('click', function() {
+                if (row.nextElementSibling && row.nextElementSibling.classList.contains('weather-details')) {
+                    row.nextElementSibling.classList.toggle('show');
+                    row.nextElementSibling.classList.toggle('active');
+                } else {
+                    var detailsRow = table.insertRow(row.rowIndex + 1);
+                    detailsRow.classList.add('weather-details', 'show', 'active');
+                    var detailsCell = detailsRow.insertCell();
+                    detailsCell.colSpan = 3; // Span across all columns
+                    var details = document.createElement('div');
+                    details.classList.add('weather-details-content');
+                    details.innerHTML = `
+                        <div style="display: flex; justify-content: space-between;">
+                            <div style="flex: 1;">
+                                <p><i class="fas fa-tint"></i> Humidity: ${entry.main.humidity}%</p>
+                                <p><i class="fas fa-wind"></i> Wind Speed: ${entry.wind.speed} m/s</p>
+                                <p><i class="fas fa-tachometer-alt"></i> Pressure: ${entry.main.pressure} hPa</p>
+                            </div>
+                            <div style="flex: 1;">
+                                <p><i class="fas fa-thermometer-half"></i> Feels Like: ${entry.main.feels_like}°C</p>
+                                <p><i class="fas fa-thermometer-full"></i> Max Temp: ${entry.main.temp_max}°C</p>
+                                <p><i class="fas fa-thermometer-empty"></i> Min Temp: ${entry.main.temp_min}°C</p>
+                            </div>
+                        </div>
+                    `;
+                    detailsCell.appendChild(details);
+                }
+            });
+        });
+
+        return table;
+    }
+
+    function loadMoreData() {
+        startIndex += recordsToShow;
+        renderWeatherEntries();
+    }
+
+    function handleScroll() {
+        if (weatherForecastWrapper.scrollHeight - weatherForecastWrapper.scrollTop === weatherForecastWrapper.clientHeight) {
+            loadingIndicator.style.display = 'block'; // Show loading spinner when loading more data
+            loadMoreData();
+        }
+    }
+
+    weatherForecastWrapper.addEventListener('scroll', handleScroll);
+
+    // Show loading spinner when fetching data
+    loadingIndicator.style.display = 'block';
+
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?appid=${import.meta.env.VITE_OPENWEATHERMAP}&units=metric&q=kundapura`)
+        .then(response => response.json())
+        .then(parsedData => {
+            console.log(parsedData); // Log the fetched data to check
+            data = parsedData;
+            renderWeatherEntries();
+        })
+        .catch(error => console.error('Error fetching weather data:', error));
+
+    function getDateLabel(date, index) {
+    if (index === 0) {
+        return 'Today - ' + date;
+    } else if (index === 1) {
+        return 'Tomorrow - ' + date;
+    } else if (index === 2) {
+        return 'Day after Tomorrow - ' + date;
+    } else {
+        // For remaining days, format as weekday name followed by date
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        var weekdayDate = new Date(date);
+        return weekdayDate.toLocaleDateString('en-US', options);
+    }
+}
+});
+</script>
+
+</body>
+</html>
