@@ -23,7 +23,7 @@ jobs:
 
       - name: Set environment variables for VITE
         run: |
-          echo "VITE_OPENWEATHER=${{ secrets.OPENWEATHERMAP_KEY }}" >> $GITHUB_ENV
+          echo "VITE_OPENWEATHERMAP=${{ secrets.OPENWEATHERMAP_KEY }}" >> $GITHUB_ENV
           echo "VITE_GEOAPIFY=${{ secrets.GEOAPIFY_KEY }}" >> $GITHUB_ENV
           echo "VITE_DISTANCEMATRIX=${{ secrets.DISTANCEMATRIX_KEY }}" >> $GITHUB_ENV
           echo "VITE_DISTANCEMATRIX_COORDS=${{ secrets.DISTANCEMATRIX_COORDS_KEY }}" >> $GITHUB_ENV
