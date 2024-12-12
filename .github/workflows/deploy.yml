@@ -1,5 +1,4 @@
-name: Deploy to GitHub Pages- name: Log Environment Variables
-  run: echo ${{ secrets.OPENWEATHERMAP_KEY }}
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -30,6 +29,9 @@ jobs:
           echo "VITE_DISTANCEMATRIX_COORDS=${{ secrets.DISTANCEMATRIX_COORDS_KEY }}" >> $GITHUB_ENV
           echo "VITE_VISUALCROSSING=${{ secrets.VISUALCROSSING_KEY }}" >> $GITHUB_ENV
         # This step ensures that the secrets are injected as environment variables for Vite
+
+      - name: Log Environment Variables
+        run: echo ${{ secrets.OPENWEATHERMAP_KEY }}  # Log the environment variable for verification
 
       - name: Build the project
         run: npm run build  # Run the build process using Vite
