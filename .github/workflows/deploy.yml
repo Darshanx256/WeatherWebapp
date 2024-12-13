@@ -24,7 +24,7 @@ jobs:
       - name: Debug environment variables
         run: printenv | grep VITE_  # Print all environment variables with VITE_ prefix
         env:  # Pass secrets for debugging
-          VITE_OPENWEATHERMAP: ${{ secrets.OPENWEATHERMAP_KEY }}
+          VITE_OPENWEATHERMAP: HELLO
           VITE_GEOAPIFY: ${{ secrets.GEOAPIFY_KEY }}
           VITE_DISTANCEMATRIX: ${{ secrets.DISTANCEMATRIX_KEY }}
           VITE_DISTANCEMATRIX_COORDS: ${{ secrets.DISTANCEMATRIX_COORDS_KEY }}
@@ -33,7 +33,7 @@ jobs:
       - name: Build the project with environment variables
         run: npm run build  # Run the build process using Vite
         env:  # Pass secrets as environment variables during the build
-          VITE_OPENWEATHERMAP: ${{ secrets.OPENWEATHERMAP_KEY }}
+          VITE_OPENWEATHERMAP: HELLO
           VITE_GEOAPIFY: ${{ secrets.GEOAPIFY_KEY }}
           VITE_DISTANCEMATRIX: ${{ secrets.DISTANCEMATRIX_KEY }}
           VITE_DISTANCEMATRIX_COORDS: ${{ secrets.DISTANCEMATRIX_COORDS_KEY }}
