@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', async() =>{
-
-
     let apiKey = null;
     let geoapiKey = null;
     try {
@@ -12,7 +10,9 @@ document.addEventListener('DOMContentLoaded', async() =>{
     {
          console.log('Error importing API key: ', error)
     }
-
+});
+    
+document.addEventListener('DOMContentLoaded', function() {
 
     const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric";
 
