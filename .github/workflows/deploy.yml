@@ -21,9 +21,18 @@ jobs:
       - name: Install dependencies
         run: npm install  # Install dependencies from package.json
 
+      - name: Debug environment variables
+        run: printenv | grep VITE_  # Print all environment variables with VITE_ prefix
+        env:  # Pass secrets for debugging
+          VITE_OPENWEATHERMAP: ${{ secrets.OPENWEATHERMAP_KEY }}
+          VITE_GEOAPIFY: ${{ secrets.GEOAPIFY_KEY }}
+          VITE_DISTANCEMATRIX: ${{ secrets.DISTANCEMATRIX_KEY }}
+          VITE_DISTANCEMATRIX_COORDS: ${{ secrets.DISTANCEMATRIX_COORDS_KEY }}
+          VITE_VISUALCROSSING: ${{ secrets.VISUALCROSSING_KEY }}
+
       - name: Build the project with environment variables
         run: npm run build  # Run the build process using Vite
-        env:  # Directly pass secrets as environment variables
+        env:  # Pass secrets as environment variables during the build
           VITE_OPENWEATHERMAP: ${{ secrets.OPENWEATHERMAP_KEY }}
           VITE_GEOAPIFY: ${{ secrets.GEOAPIFY_KEY }}
           VITE_DISTANCEMATRIX: ${{ secrets.DISTANCEMATRIX_KEY }}
