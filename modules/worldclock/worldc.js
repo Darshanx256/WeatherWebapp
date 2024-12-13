@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function getTimezoneOffset(location) {
         try {
-            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=5a088485f78a08fadae18627eec5a98f`);
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${import.meta.env.VITE_OPENWEATHER}`);
             const data = await response.json();
             return data;
         } catch (error) {
