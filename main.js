@@ -1,6 +1,7 @@
+let apiKey = null;
+let geoapiKey = null;
+
 document.addEventListener('DOMContentLoaded', async() =>{
-    let apiKey = null;
-    let geoapiKey = null;
     try {
          const module = await import('./modules/main/config.mjs');
          apiKey = module.OPENWEATHERMAP_KEY;
