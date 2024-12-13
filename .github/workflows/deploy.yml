@@ -21,19 +21,15 @@ jobs:
       - name: Install dependencies
         run: npm install  # Install dependencies from package.json
 
-      - name: Debug environment variables
-        run: printenv | grep VITE_  # Print all environment variables with VITE_ prefix
-        env:  # Pass secrets for debugging
-          VITE_OPENWEATHERMAP: "HELLO"
-          VITE_GEOAPIFY: ${{ secrets.GEOAPIFY_KEY }}
-          VITE_DISTANCEMATRIX: ${{ secrets.DISTANCEMATRIX_KEY }}
-          VITE_DISTANCEMATRIX_COORDS: ${{ secrets.DISTANCEMATRIX_COORDS_KEY }}
-          VITE_VISUALCROSSING: ${{ secrets.VISUALCROSSING_KEY }}
-
       - name: Build the project with environment variables
-        run: npm run build  # Run the build process using Vite
-        env:  # Pass secrets as environment variables during the build
-          VITE_OPENWEATHERMAP: "HELLO"
+        run: |
+          # Debug: Print out the environment variables before the build
+          echo "VITE_OPENWEATHERMAP=$VITE_OPENWEATHERMAP"
+          echo "VITE_GEOAPIFY=$VITE_GEOAPIFY"
+          npm run build  # Run the build process using Vite
+        env:
+          # Pass the GitHub secrets to environment variables
+          VITE_OPENWEATHERMAP: ${{ secrets.OPENWEATHERMAP_KEY }}
           VITE_GEOAPIFY: ${{ secrets.GEOAPIFY_KEY }}
           VITE_DISTANCEMATRIX: ${{ secrets.DISTANCEMATRIX_KEY }}
           VITE_DISTANCEMATRIX_COORDS: ${{ secrets.DISTANCEMATRIX_COORDS_KEY }}
@@ -43,5 +39,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4  # Action to deploy to GitHub Pages
         with:
           branch: gh-pages  # Deploy to the gh-pages branch
-          folder: .  # The folder where your built files will be located (default is dist)
-          token: ${{ secrets.GH_TOKEN }}  # Add this line to pass the token
+          folder: .  # The folder where your built files will be located (Vite outputs to 'dist')
+          token: ${{ secrets.GH_TOKEN }}  # Pass the GitHub token for deployment
