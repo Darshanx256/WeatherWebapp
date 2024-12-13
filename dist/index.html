@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB APPLICATION</title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon-66553b77.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    
+    
+    <script src="modules/textbox/test.js"></script>
+    <script src="modules/textbox/data.js"></script>
+    <script src="modules/distance/main.js"></script>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="/assets/index-72b6db95.css">
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="/assets/icon-44fcf10d.svg" alt="Logo">
+        <h3>QuickWeather</h3>
+        <button id="history-btn"><img src="/assets/history-921567b2.svg" alt="History"></button>
+        <button id="gps"><img src="/assets/gps-065c759a.svg" alt="Locate me"></button>
+        <button id="voiceSearchButton"><img id="micButton" src="/assets/mic-mute-05c9bc72.svg" alt="voice search"></button>
+        <input type="text" id="searchInput" placeholder="Enter city name" spellcheck="false">
+        <div id="suggestionContainer" class="suggestion-container"></div>
+        <button id="searchButton" class="search-icon"><img src="/assets/searchIcon-d4e7ae42.png" alt="Search"></button>
+    </div>
+
+    <div id="history" class="overlay">
+        
+        <div id="history-content">
+            <table>
+                <thead>
+                    <tr>
+                        <div class="history-header">
+                            <th><h2>HISTORY</h2></th><th></th>
+                            <th><button id="closeHistoryBtn">Close</button></th>
+                        </div>
+                    </tr>
+                    <tr>
+                        <th>Query</th>
+                        <th>Temperature</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <!-- Search history rows will be appended here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div class="left-partition">
+            <!-- Card 1: Left Panel -->
+            <div class="card card-basic">
+                <div class="weather-container">
+                    <div class="weather">
+                        <img src="/assets/sun-6e99afb4.png" class="weather-icon" alt="Weather Icon">
+                        <p class="temp">22 °C</p>&nbsp;&nbsp;&nbsp;
+                        <p class="new-weather">Sunny Weather</p>&nbsp;&nbsp;&nbsp;
+                        <p class="city">New York</p>&nbsp;&nbsp;&nbsp;
+                        <p class="country">USA</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2: Right Panel -->
+            <div class="card card-details">
+                <div class="details">
+                    <div class="col">
+                        <i class="fas fa-tint fa-3x"></i>
+                        <span>
+                            <p class="humidity">50%</p>
+                            <p>Humidity</p>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <i class="fas fa-wind fa-3x"></i>
+                        <span>
+                            <p class="wind">15 km/h</p>
+                            <p>Wind Speed</p>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <i class="fas fa-thermometer-empty fa-3x"></i>
+                        <span>
+                            <p class="min">10 °C</p>
+                            <p>Min Temp</p>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <i class="fas fa-thermometer-full fa-3x"></i>
+                        <span>
+                            <p class="max">30 °C</p>
+                            <p>Max Temp</p>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <i class="fas fa-tachometer-alt fa-3x"></i>
+                        <span>
+                            <p class="pressure">1013 hPa</p>
+                            <p>Pressure</p>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <i class="fas fa-eye fa-3x"></i>
+                        <span>
+                            <p class="visibility">10 km</p>
+                            <p>Visibility</p>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <i class="fas fa-water fa-3x"></i>
+                        <span>
+                            <p class="sea-level">0 m</p>
+                            <p>Sea Level</p>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <table cellpadding="0" class = "map-time-table" cellspacing="0" style="margin-top: -20px; width: 100%;">
+                <tr>
+                    <td style="width: 50%;">
+                        <div class='card card-map'>
+                            <div class="map-container">
+                                <img width="400" height="200" id="minimap" class="minimap">
+                                    <div class="map-spinner"><i class="fas fa-spinner fa-spin" style = "z-index: -1;"></i></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div class='card card-time'>
+                            <p class='time-block' id='time'>12:30 AM</p>
+                            <p class='date-block' id='date'>Wed- 3 Apr 2024</p>
+                            <p class='time-of-day' id='timeOfDay'>Morning</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+        </div>
+        <div class="right-partition">
+		
+			<div class = "card prediction-card">
+				<div id="weatherForecastContainer" class="slide-in">
+					<div id="weatherForecastWrapper">
+						<div id="weatherForecast"></div>
+					</div>
+				<div id="loadingIndicator">
+                <div class="spinner"><i class="fas fa-spinner fa-spin"></i></div>
+                 <!-- Loading spinner icon -->
+                <div>Loading...</div>
+               </div>
+           </div>
+		</div>
+
+
+            <!--<table cellpadding="0" cellspacing="0" style="margin-top: -20px;" class = "buttons-tabl">
+                <tr>
+                    <td>
+                        <button class="world-clock-button">
+                            <img src="icons/worldclock.jpg" alt="World Clock">
+                        </button>
+                    </td>
+                    <td>
+                        <button class="distance-calculation">
+                            <img src="icons/distancecalculator.jpg" alt="Distance Calculation(button under construction)">
+                        </button>
+                    </td>
+                </tr>
+            </table>
+	 -->
+			
+			
+		<div class="card">
+            <button class="button" id = "distancecalculator">
+                <img src="/assets/distancecalculator-4c402eda.jpg" alt="calc">
+            </button>
+    <button class="button" id = "worldclock" onclick = "window.location.href = 'modules/worldclock/index.html';">
+        <img src="/assets/worldclock-30802391.jpg" alt="clock">
+    </button>
+</div>
+
+			
+
+        </div>
+    </div>
+    <!--POPUPS-->
+    <div id="loading-popup">
+        <!--<div id="loading-content">-->
+            <div class="logo"></div>
+            <div class="loading-name"><p></p><h1>QuickWeather</h1><p></p></div>
+            <div class="mainspinner"><i class="fas fa-spinner fa-spin"></i></div>
+        <!--</div>-->
+    </div>
+
+    <div id="no-network-popup" style = "display:none;">
+        <p>No network connection. Please check your internet connection.</p>
+    </div>
+
+
+    <div id ="distance-popup" style = "display: none;">
+    </div>
+    <style></style>
+
+    <script src="modules/voice/voice.js"></script>
+</body>
+</html>

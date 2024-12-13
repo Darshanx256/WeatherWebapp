@@ -1,0 +1,19 @@
+{
+  "name": "Weather web app",
+  "version": "1.0.0",
+  "description": "A simple weather web application",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "vite": "^4.0.0"
+  },
+  "devDependencies": {
+    "vite-plugin-env-compatible": "^1.0.0"
+  },
+  "author": "Darshanx256",
+  "license": "none"
+}

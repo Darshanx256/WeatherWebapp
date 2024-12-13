@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Clock</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(to right, #3498db, #6c5ce7);
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative; /* added for positioning the moon */
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 48px;
+        }
+
+        .location {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .location > div {
+            margin: 10px;
+        }
+
+        .moon-image {
+            background-image: url('moon.svg'); /* Replace 'moon.jpg' with your moon image path */
+            background-size: cover;
+            width: 20px; /* Adjust width and height as needed */
+            height: 20px;
+            border-radius: 50%; /* Makes it a circle */
+        }
+
+        .sunrise-sunset {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #fff9f9;
+        }
+
+        .locations-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px;
+            width: 250px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card > div {
+            margin: 10px 0;
+            color: #555;
+            transition: color 0.3s ease;
+        }
+
+        .card:hover > div {
+            color: #333;
+        }
+
+        .no-cards {
+            margin: 20px;
+            font-style: italic;
+            color: #888;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .location-input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            width: 200px;
+        }
+
+        .add-button,
+        .remove-button,
+        .search-button,
+        .delete-all-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-button:hover,
+        .remove-button:hover,
+        .search-button:hover,
+        .delete-all-button:hover {
+            background-color: #2980b9;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px;
+            border: none;
+            background: none;
+            font-size: 24px;
+            color: #fff;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: #ccc;
+        }
+
+        /* Icon styles */
+        .icon {
+            margin-right: 5px;
+        }
+
+        .moon-image{
+            font-family: "Segoe UI Emoji", "Noto Color Emoji", "Twemoji", "Apple Color Emoji", "Android Emoji";
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>World Clock</h1>
+    <button class="close-button">×</button>
+    <div class="controls">
+        <input type="text" placeholder="Add a location" class="location-input">
+        <button class="search-button"><span class="icon">🔍</span>Search</button>&nbsp
+        <button class="add-button">+</button>
+    </div>
+    <div class="location">
+        <div class="c-place-name"></div>
+        <div class="c-sun-icon">☀</div>
+        <div class="c-current-time"></div>
+        <div class="country-name"></div>
+        <div class="sunrise-sunset">
+            <div class="sunset-time">Sunset: 0:00 PM</div>
+            <div class="sunrise-time">Sunrise: 0:00 AM</div>
+        </div>
+    </div>
+    <!-- Moon Section -->
+    <div class="moon-section">
+        <span class="moon-image"></span>
+        <span class="moon-status"></span>
+    </div>
+</div>
+<div class="locations-container">
+    <!-- Location cards will be dynamically added here -->
+    <div class="no-cards">No cards available</div>
+</div>
+<div class="delete-all" style="text-align: center; margin-top: 20px;">
+    <button class="delete-all-button">Delete All</button>
+</div>
+<script src="worldc.js"></script>
+<script src="moon.js"></script>
+</body>
+</html>
