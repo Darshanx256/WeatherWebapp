@@ -23,9 +23,6 @@ jobs:
 
       - name: Build the project with environment variables
         run: |
-          # Debug: Print out the environment variables before the build
-          echo "VITE_OPENWEATHERMAP=$VITE_OPENWEATHERMAP"
-          echo "VITE_GEOAPIFY=$VITE_GEOAPIFY"
           npm run build  # Run the build process using Vite
         env:
           # Pass the GitHub secrets to environment variables
